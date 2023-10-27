@@ -5,7 +5,7 @@ import LightBox from "./components/LightBox/LightBox";
 import Home from "./pages/Home/Home";
 import { ContextApp } from "./utils/Context";
 import Footer from "./components/Footer/Footer";
- 
+  
 function App() {
   const { show } = useContext(ContextApp);
   return (
