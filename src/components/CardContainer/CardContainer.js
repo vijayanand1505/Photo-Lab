@@ -5,7 +5,7 @@ import { ContextApp } from "../../utils/Context";
 import Loader from "../Loader/Loader";
 function CardContainer() {
   const { images, loading, loadMoreImage } = useContext(ContextApp);
-  return (
+  return ( 
     <>
       <div className="card-Container">
         {images?.map((item) => (
