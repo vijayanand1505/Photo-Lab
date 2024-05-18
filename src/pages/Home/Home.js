@@ -3,7 +3,7 @@ import "./Home.scss";
 import Banner from "../../components/Banner/Banner";
 import CardContainer from "../../components/CardContainer/CardContainer";
 function Home() {
-  return (
+  return ( 
     <div className="home">
       <Banner />
       <CardContainer />
