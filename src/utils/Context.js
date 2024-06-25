@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import { getImages } from "./Api";
 
-export const ContextApp = createContext();
+export const ContextApp = createContext(); 
 
 const AppContext = ({ children }) => {
   const [show, setShow] = useState(false);
