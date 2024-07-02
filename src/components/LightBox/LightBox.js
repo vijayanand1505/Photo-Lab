@@ -5,7 +5,7 @@ import { IoMdClose } from "react-icons/io";
 import { ContextApp } from "../../utils/Context";
 function LightBox() {
   const { setShow, detail, dounloadImgBtn } = useContext(ContextApp);
-  return (
+  return ( 
     <div className="light-box">
       <div className="container">
         <div className="download">
