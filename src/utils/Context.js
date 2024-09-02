@@ -11,7 +11,7 @@ const AppContext = ({ children }) => {
   const [images, setImages] = useState([]);
   const [detail, setDetail] = useState({});
   const [loading, setLoading] = useState(true);
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState(""); 
 
   // <============= Load images based on search or curated ============>
   useEffect(() => {
