@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import "./Card.scss"; 
+import "./Card.scss";
 import { IoMdAdd } from "react-icons/io";
 import { BsFillSuitHeartFill } from "react-icons/bs";
 import { ContextApp } from "../../utils/Context";
