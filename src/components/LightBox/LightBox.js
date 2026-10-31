@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { FiArrowLeft, FiArrowRight, FiArrowUpRight, FiCheck, FiDownload, FiHeart, FiPlus, FiX, FiEdit2, FiGrid, FiColumns } from "react-icons/fi";
+import { FiArrowLeft, FiArrowRight, FiArrowUpRight, FiCheck, FiDownload, FiHeart, FiPlus, FiX, FiEdit2, FiGrid, FiColumns, FiShare2 } from "react-icons/fi";
 import { ContextApp } from "../../utils/Context";
 import Dialog from "../shared/Dialog";
 import Tooltip from "../shared/Tooltip";
@@ -7,7 +7,7 @@ import PhotoImage from "../shared/PhotoImage";
 import { StudioContext } from "../Studio/StudioContext";
 
 export default function LightBox() {
-  const { viewer, closeViewer, movePhoto, favorites, toggleFavorite, setCollectionPhoto, download, downloadPhoto, cancelDownload } = useContext(ContextApp);
+  const { viewer, closeViewer, movePhoto, favorites, toggleFavorite, setCollectionPhoto, download, downloadPhoto, cancelDownload, setSharingPhoto } = useContext(ContextApp);
   const [size, setSize] = useState("large");
   const { setEditorPhoto, setBoardPhoto, comparedPhotos, toggleCompare } = useContext(StudioContext);
   const photo = viewer.photos[viewer.index];
@@ -32,6 +32,7 @@ export default function LightBox() {
         <dl className="photo-metadata"><div><dt>Original size</dt><dd>{photo.width?.toLocaleString()} × {photo.height?.toLocaleString()}</dd></div><div><dt>Orientation</dt><dd>{photo.width === photo.height ? "Square" : photo.width > photo.height ? "Landscape" : "Portrait"}</dd></div>
           {photo.avg_color && <div><dt>Average color</dt><dd><span className="metadata-color" style={{ background: photo.avg_color }} />{photo.avg_color}</dd></div>}</dl>
         <div className="viewer-creative-actions"><button className="button button-small button-secondary" onClick={() => setEditorPhoto(photo)}><FiEdit2 /> Edit photo</button><button className="button button-small button-secondary" onClick={() => setBoardPhoto(photo)}><FiGrid /> Add to moodboard</button><button className="button button-small button-secondary" aria-pressed={comparedPhotos.some((item) => item.id === photo.id)} onClick={() => toggleCompare(photo)}><FiColumns />{comparedPhotos.some((item) => item.id === photo.id) ? "Selected to compare" : "Select to compare"}</button></div>
+        <button className="button button-secondary viewer-share-button" onClick={() => setSharingPhoto(photo)}><FiShare2 aria-hidden="true" /> Share photo</button>
         <div className="download-options"><label htmlFor="download-size">Download size</label><select id="download-size" value={size} onChange={(event) => setSize(event.target.value)}>
           <option value="small">Small · {dimension(640)}</option><option value="medium">Medium · {dimension(1280)}</option><option value="large">Large · {dimension(2400)}</option><option value="original">Original · {photo.width} × {photo.height} px</option>
         </select><button className="button download-button" disabled={Boolean(download)} onClick={() => downloadPhoto(photo, size)}>{download ? <span className="spinner" /> : <FiDownload aria-hidden="true" />}{download ? "Downloading…" : "Download photo"}</button>

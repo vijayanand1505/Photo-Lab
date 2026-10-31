@@ -97,6 +97,17 @@ See the [media notes](docs/MEDIA.md) for recording details and photo credits. Ga
 - Download progress when the image server supplies a content length, cancellation, and error feedback.
 - Keyboard navigation, focus management, Escape/backdrop dismissal, and a scrollable details panel on desktop.
 
+### Share photos
+
+- Share from the photo viewer or a photo card’s **… → Share photo** action.
+- Copy a Photo Lab link or choose **Share via…** to use your device’s sharing menu when supported.
+- Links use `?photo=PHOTO_ID` and open the original photo inside Photo Lab, including in a fresh browser session. Recipients can save, edit, or download it without an account.
+- Loading, retry, invalid-link, and unavailable-photo states help recipients recover from failures.
+- If clipboard access is unavailable, the link is selected for manual copying.
+- Sharing sends the original photo; editor drafts, personal collections, and moodboards stay in your browser. Export edited images or moodboards to share those files.
+
+Use links from the hosted site when sharing with other people; local development links point to your own localhost.
+
 ### Lightweight photo editor
 
 - Live canvas preview with brightness, contrast, and saturation controls from 0–200%.
@@ -162,6 +173,12 @@ Zoom, panning, and alignment guides affect the workspace view; they do not chang
 4. Choose PNG or JPEG, then select **Export edited photo**.
 
 Drafts store editing settings. Export creates a separate image; an editor draft does not replace the original photo or a moodboard's source image.
+
+### Share a photo
+
+1. Open a photo and choose **Share photo**, or choose it from the photo card’s **…** menu.
+2. Select **Copy link** or **Share via…** if your device supports it.
+3. Send the link to your recipient. It opens that exact photo in Photo Lab without requiring your saved library or search results.
 
 ### Build a moodboard
 
@@ -233,13 +250,13 @@ Image editing and moodboard exports run in the browser using canvas. Remote imag
 | `CI=true npm test -- --watchAll=false --runInBand` | Run the full test suite once |
 | `npm run build` | Create the production build in `build/` |
 
-The tests cover submitted search and filters, cancellation, pagination and retries, favorites and collections, photo viewing and downloads, theme persistence, editor history and drafts, crop geometry and pixel adjustments, moodboard layout and bounds, comparison metadata, removal recovery, browsing position, and alignment snapping.
+The tests cover submitted search and filters, cancellation, pagination and retries, favorites and collections, photo viewing and downloads, theme persistence, editor history and drafts, crop geometry and pixel adjustments, moodboard layout and bounds, comparison metadata, removal recovery, browsing position, alignment snapping, shared-photo loading, clipboard fallback, and native sharing.
 
 ### Deploy to Vercel
 
 Import `vijayanand1505/Photo-Lab` into Vercel using the Create React App preset. `vercel.json` configures `npm run build` and the `build/` output directory. Use Node.js 24.
 
-Add `PEXELS_API_KEY` as an encrypted environment variable for Production and Preview, then deploy the `main` branch. The `/api/photos` function forwards curated and search requests to Pexels and caches successful responses briefly. The key stays on the server. Local `.env` files are excluded from Git and CLI uploads.
+Add `PEXELS_API_KEY` as an encrypted environment variable for Production and Preview, then deploy the `main` branch. The `/api/photos` function forwards curated, search, and individual photo requests to Pexels and caches successful responses briefly. The key stays on the server. Local `.env` files are excluded from Git and CLI uploads.
 
 Deploy the complete project, including `api/photos.js`; serving only `build/` will not provide photo discovery. Run `node --test tests/photos-api.test.cjs` to check the API handler.
 

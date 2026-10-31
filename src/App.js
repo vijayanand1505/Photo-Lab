@@ -13,9 +13,10 @@ import StudioOverlays from "./components/Studio/StudioOverlays";
 import { ComparisonDock } from "./components/Studio/Comparison";
 import UndoNotice from "./components/shared/UndoNotice";
 import useBrowsePosition from "./utils/useBrowsePosition";
+import SharePhoto, { SharedPhotoStatus } from "./components/shared/SharePhoto";
 
 export default function App() {
-  const { viewer, collectionPhoto, toast, dismissToast, download, cancelDownload, view, collectionId, searchVersion } = useContext(ContextApp);
+  const { viewer, collectionPhoto, toast, dismissToast, download, cancelDownload, view, collectionId, searchVersion, sharingPhoto, setSharingPhoto, sharedPhotoStatus, closeSharedPhoto, retrySharedPhoto } = useContext(ContextApp);
   const { comparedPhotos, activeBoardId } = useContext(StudioContext);
   useBrowsePosition(view === "explore" ? `explore:${searchVersion}` : view === "collections" ? `collections:${collectionId || "list"}` : view === "moodboards" ? `moodboards:${activeBoardId || "list"}` : view);
   const ToastIcon = toast?.tone === "success" ? FiCheckCircle : toast?.tone === "error" ? FiAlertCircle : FiInfo;
@@ -24,6 +25,8 @@ export default function App() {
     <main id="main-content" tabIndex={-1}><Home /></main><Footer />
     {viewer && <LightBox />}{collectionPhoto && <CollectionPicker />}
     <StudioOverlays /><ComparisonDock />
+    {sharedPhotoStatus && <SharedPhotoStatus status={sharedPhotoStatus} onClose={closeSharedPhoto} onRetry={retrySharedPhoto} />}
+    {sharingPhoto && <SharePhoto key={sharingPhoto.id} photo={sharingPhoto} onClose={() => setSharingPhoto(null)} />}
     {createPortal(<div className="feedback-stack">
       <UndoNotice />
       {download && <div className="download-status"><div><FiDownload aria-hidden="true" /><span role="status">Downloading photo{download.progress !== null ? ` · ${download.progress}%` : "…"}</span><button className="icon-button" aria-label="Cancel download" onClick={cancelDownload}><FiX /></button></div><progress aria-label="Photo download progress" max="100" value={download.progress === null ? undefined : download.progress} /></div>}

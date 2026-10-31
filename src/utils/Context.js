@@ -3,6 +3,7 @@ import { buildPhotoUrl, EMPTY_FILTERS, getImages, photoSource } from "./Api";
 import { readStored, usePersistentState, validCollections, validFavorites } from "./storage";
 import StudioProvider from "../components/Studio/StudioContext";
 import useUndoActions from "./useUndoActions";
+import useSharedPhoto from "./useSharedPhoto";
 
 export const ContextApp = createContext();
 
@@ -28,6 +29,8 @@ export default function AppContext({ children }) {
   const [retryId, setRetryId] = useState(0);
   const [searchVersion, setSearchVersion] = useState(0);
   const [viewer, setViewer] = useState(null);
+  const [sharingPhoto, setSharingPhoto] = useState(null);
+  const { status: sharedPhotoStatus, close: closeSharedPhoto, retry: retrySharedPhoto } = useSharedPhoto(setViewer);
   const [collectionPhoto, setCollectionPhoto] = useState(null);
   const [download, setDownload] = useState(null);
   const downloadController = useRef(null);
@@ -147,11 +150,15 @@ export default function AppContext({ children }) {
     });
   };
 
-  const closeViewer = useCallback(() => setViewer(null), []);
+  const closeViewer = useCallback(() => { setViewer(null); closeSharedPhoto(); }, [closeSharedPhoto]);
   const closeCollectionPicker = useCallback(() => setCollectionPhoto(null), []);
   const activeCollection = collections.find((item) => item.id === collectionId);
   const visibleImages = view === "favorites" ? favorites : view === "collections" ? activeCollection?.photos || [] : images;
-  const openPhoto = (photo) => setViewer({ photos: [...visibleImages], index: visibleImages.findIndex((item) => item.id === photo.id) });
+  const openPhoto = (photo) => {
+    closeSharedPhoto();
+    const index = visibleImages.findIndex((item) => item.id === photo.id);
+    setViewer({ photos: index < 0 ? [photo] : [...visibleImages], index: Math.max(0, index) });
+  };
   const movePhoto = useCallback((direction) => setViewer((previous) => previous ? {
     ...previous, index: (previous.index + direction + previous.photos.length) % previous.photos.length,
   } : null), []);
@@ -208,6 +215,7 @@ export default function AppContext({ children }) {
     },
     toggleFavorite, createCollection, renameCollection, deleteCollection, toggleCollectionPhoto,
     viewer, openPhoto, closeViewer, movePhoto, collectionPhoto, setCollectionPhoto, closeCollectionPicker,
+    sharingPhoto, setSharingPhoto, sharedPhotoStatus, closeSharedPhoto, retrySharedPhoto,
     download, downloadPhoto, cancelDownload: () => downloadController.current?.abort(),
   }}><StudioProvider notify={notify} offerUndo={offerUndo}>{children}</StudioProvider></ContextApp.Provider>;
 }

@@ -227,6 +227,16 @@ input::placeholder { color: var(--muted); opacity: 1; }
 .input-row .button { flex-shrink: 0; }
 .picker-done { width: 100%; margin-top: 23px; }
 .dialog-footer { display: flex; gap: 10px; justify-content: flex-end; margin-top: 28px; }
+.share-photo-dialog { z-index: 120; }
+.share-photo-dialog .picker-photo > span { display: block; overflow-wrap: anywhere; }
+.share-link-label { display: block; font-size: var(--font-size-ui); font-weight: 600; margin: 20px 0 9px; }
+.share-link-input { width: 100%; min-width: 0; font-size: var(--font-size-ui); }
+.share-photo-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+.share-photo-actions .button { flex: 1; }
+.share-feedback { margin-top: 14px; color: var(--accent); font-size: var(--font-size-ui); line-height: 1.6; overflow-wrap: anywhere; }
+.share-feedback:empty { display: none; }
+.shared-photo-loading { display: flex; align-items: center; gap: 10px; margin-top: 22px; font-size: var(--font-size-ui); }
+.viewer-share-button { width: 100%; margin-bottom: 20px; }
 .photo-dialog .dialog-panel { max-width: 1260px; overflow: hidden; max-height: calc(100dvh - 64px); display: flex; flex-direction: column; }
 .viewer-topbar { display: flex; align-items: center; justify-content: space-between; padding: 13px 24px; border-bottom: 1px solid var(--line); gap: 10px; }
 .viewer-counter { font-size: var(--font-size-small); font-weight: 700; }

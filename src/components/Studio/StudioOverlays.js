@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { FiArrowRight, FiCheck, FiColumns, FiEdit2, FiGrid, FiPlus, FiX } from "react-icons/fi";
+import { FiArrowRight, FiCheck, FiColumns, FiEdit2, FiGrid, FiPlus, FiShare2, FiX } from "react-icons/fi";
 import { ContextApp } from "../../utils/Context";
 import { StudioContext } from "./StudioContext";
 import { photoSource } from "../../utils/Api";
@@ -9,10 +9,11 @@ import Comparison from "./Comparison";
 import PhotoPicker from "./PhotoPicker";
 
 function PhotoActions() {
+  const { setSharingPhoto } = useContext(ContextApp);
   const { actionPhoto: photo, setActionPhoto, setEditorPhoto, setBoardPhoto, comparedPhotos, toggleCompare } = useContext(StudioContext);
   const selected = comparedPhotos.some((item) => item.id === photo.id);
   return <Dialog onClose={() => setActionPhoto(null)} labelledBy="photo-actions-title" className="small-dialog studio-small-dialog"><div className="dialog-heading"><span className="eyebrow">Photo Lab</span><button className="icon-button" aria-label="Close photo tools" onClick={() => setActionPhoto(null)}><FiX /></button></div><h2 id="photo-actions-title">Photo tools</h2><div className="picker-photo"><img src={photoSource(photo, 150)} alt="" /><span>Selected photo<small>by {photo.photographer}</small></span></div>
-    <div className="photo-tools-list"><button aria-label="Edit photo" onClick={() => { setActionPhoto(null); setEditorPhoto(photo); }}><FiEdit2 /><span>Edit photo<small>Crop, adjust, add text, and export</small></span><FiArrowRight /></button><button aria-label="Add to moodboard" onClick={() => { setActionPhoto(null); setBoardPhoto(photo); }}><FiGrid /><span>Add to moodboard<small>Add this photo to a board</small></span><FiArrowRight /></button><button aria-label={selected ? "Remove from comparison" : "Select for comparison"} aria-pressed={selected} onClick={() => { toggleCompare(photo); setActionPhoto(null); }}><FiColumns /><span>{selected ? "Remove from comparison" : "Select for comparison"}<small>Compare up to four photos side by side</small></span>{selected ? <FiCheck /> : <FiPlus />}</button></div>
+    <div className="photo-tools-list"><button aria-label="Edit photo" onClick={() => { setActionPhoto(null); setEditorPhoto(photo); }}><FiEdit2 /><span>Edit photo<small>Crop, adjust, add text, and export</small></span><FiArrowRight /></button><button aria-label="Add to moodboard" onClick={() => { setActionPhoto(null); setBoardPhoto(photo); }}><FiGrid /><span>Add to moodboard<small>Add this photo to a board</small></span><FiArrowRight /></button><button aria-label={selected ? "Remove from comparison" : "Select for comparison"} aria-pressed={selected} onClick={() => { toggleCompare(photo); setActionPhoto(null); }}><FiColumns /><span>{selected ? "Remove from comparison" : "Select for comparison"}<small>Compare up to four photos side by side</small></span>{selected ? <FiCheck /> : <FiPlus />}</button><button aria-label="Share photo" onClick={() => { setActionPhoto(null); setSharingPhoto(photo); }}><FiShare2 /><span>Share photo<small>Send a link that opens in Photo Lab</small></span><FiArrowRight /></button></div>
   </Dialog>;
 }
 function BoardPicker() {
