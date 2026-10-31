@@ -1,33 +1,6 @@
-import React from "react";
-import "./Footer.scss";
-
-function Footer() {
-  return (
-    <div
-      style={{
-        textAlign: "center",
-        marginTop: "30px",
-        color: "white",
-        backgroundColor: "#1e1e1e",
-        padding: "30px 0px",
-      }}
-    >
-      <h2>Photo Lab | Static Site</h2>
-      <h4>
-        © {new Date().getFullYear()} PhotoLab.com - All Rights Copyright
-        Reserved To {"  "}
-        <span>
-          <a
-            href="https://vijayanandthangavel.netlify.app/"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Vijay Anand
-          </a>
-        </span>
-      </h4>
-    </div>
-  );
+import { FiAperture, FiArrowUpRight } from "react-icons/fi";
+import { CREATOR_NAME, CREATOR_URL } from "../../utils/credits";
+export default function Footer() {
+  return <footer className="site-footer"><div className="shell footer-inner"><div><span className="footer-brand"><FiAperture aria-hidden="true" /> photolab.</span><p>Search, edit, and organize photos.</p></div>
+    <div className="footer-links"><div className="footer-credit">Photos provided by <a href="https://www.pexels.com" target="_blank" rel="noopener noreferrer">Pexels</a><FiArrowUpRight aria-hidden="true" /></div><div className="footer-credit">Managed and maintained by <a href={CREATOR_URL} target="_blank" rel="noopener noreferrer">{CREATOR_NAME}</a><FiArrowUpRight aria-hidden="true" /></div><span>© {new Date().getFullYear()} Photo Lab</span></div></div></footer>;
 }
-
-export default Footer;
